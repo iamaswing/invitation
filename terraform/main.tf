@@ -1,3 +1,12 @@
+terraform {
+  backend "s3" {
+    bucket         = "um-terraform-state-bucket-ap-south-1"
+    key            = "invitation/terraform.tfstate"
+    region         = "ap-south-1"
+    encrypt        = true
+  }
+}
+
 provider "aws" {
   region = "ap-south-1"
 }
