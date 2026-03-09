@@ -119,6 +119,15 @@ resource "aws_cloudfront_distribution" "cdn" {
 
 #Sync GitHub repo to S3
 resource "null_resource" "sync_repo" {
+  # Force this resource to be replaced each time
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  triggers = {
+    always_run = timestamp()
+  }
+
   provisioner "local-exec" {
     command = <<EOT
       rm -rf /tmp/invitation
@@ -129,3 +138,4 @@ resource "null_resource" "sync_repo" {
 
   depends_on = [aws_s3_bucket.static_site]
 }
+
